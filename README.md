@@ -8,6 +8,15 @@
 
 >  2021.05.26 ~ 2021.06.16
 
+## 1주차
+
+### 구현사항
+
+1. TodoList 컴포넌트 생성
+2. 에러 핸들링(null, undefined, data type, new keyword 등)
+3. 다중 컴포넌트 생성
+4. setState, render 함수 등
+
 ### 체크리스트
 
 - [x] #49 TodoList 컴포넌트 작성
@@ -36,3 +45,4 @@
 3. 그 다음, 각각 `this.$target`과 `this.state`로 저장합니다.
 4. `this.setState(nextState)`는 `nextState`를 받아 `검증`한 후, `this.state`에 할당합니다.
 5. `this.render()`는 `innerHTML`과 `map`을 활용해 `this.state`에 있는 데이터를 `$target`에 렌더링합니다.
+
