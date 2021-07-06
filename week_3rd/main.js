@@ -14,4 +14,5 @@ import App from './App.js'
 import dummyData from './dummyData.js'
 
 const $app = document.querySelector('#app')
-const app = new App({ $app, dummyData })
+const app = new App({ $app, initialState: dummyData })
+app.render()
