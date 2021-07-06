@@ -11,7 +11,10 @@ const HTTP_STATUS_CODE = {
 
 function App({ $app, initialState }) {
   this.$app = $app
-  this.state = initialState
+  this.state = {
+    data: initialState,
+    keyword: '',
+  }
 
   // instances
   this.searchInput = new SearchInput({
@@ -19,8 +22,7 @@ function App({ $app, initialState }) {
     onHandleSearch: async (keyword) => {
       try {
         const data = await getFetchImage(keyword)
-
-        this.setState(data)
+        this.setState({ data, keyword })
       } catch (e) {
         switch (e.status) {
           case HTTP_STATUS_CODE.BAD_REQUEST:
