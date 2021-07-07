@@ -6,10 +6,33 @@ const API_END_POINT = 'https://jjalbot.com/api/jjals'
 // 4. 따라서 어떤 종류의 에러가 발생했는지 알려줘야 의미가 있다.
 // 5. 참고: https://prgrms-fe-js.slack.com/archives/C01RDSWL1C5/p1624431331030000
 
+// Promise를 활용한 API 요청
+export const requestWithPromise = (url) => {
+  return fetch(url) // Promise 객체를 반환함. Promise 객체는 API 요청의 성공 여부에 따라 새로운 Promise 객체를 반환한다.
+    .then((res) => {
+      if (res.ok) {
+        return res.json() // body.json() 함수는 Promise 객체를 반환.
+      }
+      throw new Error('API 요청 중에 에러가 발생했습니다...')
+    })
+    .catch((e) => {
+      alert(e.message)
+    })
+}
+
+// async, await을 활용한 API 요청
+export const request = async (url) => {
+  try {
+    const response = await fetch(url)
+    if (response.ok) {
+      return response.json()
+    }
+    throw new Error('API 요청 중에 에러가 발생했습니다....')
+  } catch (e) {
+    alert(e.message)
+  }
+}
+
 export const getFetchImage = async (keyword) => {
-  const response = await fetch(`${API_END_POINT}?text=${keyword}`)
-
-  if (!response.ok) throw new Error(response)
-
-  return response.json()
+  return request(`${API_END_POINT}?text=${keyword}`)
 }

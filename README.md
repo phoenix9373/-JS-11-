@@ -96,3 +96,21 @@
 2. `TodoList` 컴포넌트 관련
   - 현재는 `TodoList`를 생성자 함수로 호출할 때, 하나의 객체를 넘겨주는데 여기에 `$app`, `initialState`, `deleteTodo`, `toggleTodo` 등이 포함됩니다. 
   - **"처음에는 `deleteTodo`와 같이 todo에 영향을 주는 함수들을 `TodoLIst` 컴포넌트 내부에 메서드로 정의했었는데, 현재와 같이 생성과 동시에 익명함수를 넘겨주는 것이 더 낫다고 생각해서 바꿨습니다. 이에 대한 멘토분들이나 다른 기수분들의 의견이 궁금합니다."**
+
+
+
+## 3주차
+
+### 체크리스트
+
+### 파일구조
+
+### 구현방법(라이브 코딩)
+
+- 하나의 기능에 대해 모듈화를 하거나 UI를 그려야하는 경우, 컴포넌트로 분리하여 로직을 구현.
+- API 요청의 경우, END_POINT가 같은 서버에 서로 다른 요청을 하는 경우가 많다. 따라서 `api.js`로 분리하여 하나의 모듈로 만들고, `url`을 인자로 받아 API 요청하는 함수 `request`를 만들어 재사용하는 방법으로 구현한다.
+
+### 배운 점
+
+1. fetch API, Promise, body.json()
+   - 여기서 `body.json()`은 Promise 객체의 then() 메서드로 비동기 요청이 정상적으로 이행됐을 때, 요청을 통해 받는 body를 JSON 형태의 string으로 가진 resolve 함수를 반환하는 Promise 객체이다. (말이 좀 어렵다. 쉽게 말해서 Promise 객체가 잘 이행되면 resolve 함수를 호출하는데, `body.json()`이 JSON 형태의 text를 반환하는 resolve 함수를 실행하는 Promise 객체를 반환한다.)
