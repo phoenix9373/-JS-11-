@@ -1,13 +1,18 @@
-function SearchInput({ $app, onHandleSearch }) {
-  this.$target = document.createElement('input')
-  this.$target.id = 'search-input'
+function SearchInput({ $app, debouncedGetSearchResult }) {
+  this.$target = document.createElement('div')
+  this.$target.className = 'search-input'
+
+  $app.appendChild(this.$target)
 
   this.$target.addEventListener('keyup', (e) => {
     const keyword = e.target.value
-    onHandleSearch(keyword)
+    debouncedGetSearchResult(keyword)
   })
 
-  $app.appendChild(this.$target)
+  this.render = () => {
+    const htmlString = `<input type="text" />`
+    this.$target.innerHTML = htmlString
+  }
 }
 
 export default SearchInput

@@ -1,11 +1,11 @@
-function SearchHistory({ $app, initialState, getSearchResult }) {
+function SearchHistory({ $app, initialState, debouncedGetSearchResult }) {
   this.state = initialState
   this.$target = document.createElement('ul')
   this.$target.className = 'search-history'
 
   this.$target.addEventListener('click', (e) => {
     if (e.target.className === 'keyword') {
-      getSearchResult(e.target.dataset.keyword)
+      debouncedGetSearchResult(e.target.dataset.keyword)
     }
   })
 
@@ -17,13 +17,15 @@ function SearchHistory({ $app, initialState, getSearchResult }) {
   }
 
   this.render = () => {
-    const htmlString = this.state
-      .map((keyword) => {
-        return `<li class="keyword" data-keyword="${keyword}">${keyword}</li>`
-      })
-      .join('')
+    if (this.state.length > 0) {
+      const htmlString = this.state
+        .map((keyword) => {
+          return `<li class="keyword" data-keyword="${keyword}">${keyword}</li>`
+        })
+        .join('')
 
-    this.$target.innerHTML = htmlString
+      this.$target.innerHTML = htmlString
+    }
   }
 }
 
