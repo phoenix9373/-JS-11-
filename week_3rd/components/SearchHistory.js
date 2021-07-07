@@ -3,17 +3,24 @@ function SearchHistory({ $app, initialState, debouncedGetSearchResult }) {
   this.$target = document.createElement('ul')
   this.$target.className = 'search-history'
 
+  $app.appendChild(this.$target)
+
   this.$target.addEventListener('click', (e) => {
     if (e.target.className === 'keyword') {
       debouncedGetSearchResult(e.target.dataset.keyword)
     }
   })
 
-  $app.appendChild(this.$target)
+  const hasKeyword = (newKeyword, history) => history.some((keyword) => keyword === newKeyword)
 
   this.setState = (nextState) => {
-    this.state = nextState
+    if (hasKeyword(nextState, this.state)) {
+      return this.state
+    }
+
+    this.state = [...this.state, nextState]
     this.render()
+    return this.state
   }
 
   this.render = () => {

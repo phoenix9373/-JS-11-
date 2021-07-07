@@ -22,7 +22,7 @@ function App({ $app, initialState = [] }) {
   const getSearchResult = async (keyword) => {
     try {
       const data = await getFetchImage(keyword)
-      this.setState({ data, keyword, history: [...this.state.history, keyword] })
+      this.setState({ ...this.state, data, keyword })
     } catch (e) {
       switch (e.status) {
         case HTTP_STATUS_CODE.BAD_REQUEST:
@@ -59,10 +59,10 @@ function App({ $app, initialState = [] }) {
   })
 
   this.setState = (nextState) => {
-    const { data, history } = nextState
-    this.state = nextState
-    searchResult.setState({ data, history })
-    searchHistory.setState(history)
+    const { data, keyword } = nextState
+    searchResult.setState({ data, keyword })
+    const nextHistory = searchHistory.setState(keyword)
+    this.state = { ...nextState, history: nextHistory }
   }
 
   this.render = () => {
