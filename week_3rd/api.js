@@ -21,18 +21,24 @@ export const requestWithPromise = (url) => {
 }
 
 // async, await을 활용한 API 요청
+// tip: 코드의 일관성을 유지하기 위해 async, await을 API 요청에 관련한 곳에 모두 사용하는 것이 좋다.
 export const request = async (url) => {
   try {
     const response = await fetch(url)
-    if (response.ok) {
-      return response.json()
+
+    if (!response.ok) {
+      throw new Error('API 요청 중에 에러가 발생했습니다....')
     }
-    throw new Error('API 요청 중에 에러가 발생했습니다....')
+
+    const result = await response.json()
+    return result
   } catch (e) {
     alert(e.message)
   }
 }
 
+// request의 경우, Promise 객체를 리턴하므로 async, await을 굳이 붙이지 않아도 되긴 한다.
+// (하지만 일관성을 위해! 비동기를 명시하는 의미)
 export const getFetchImage = async (keyword) => {
-  return request(`${API_END_POINT}?text=${keyword}`)
+  return await request(`${API_END_POINT}?text=${keyword}`)
 }

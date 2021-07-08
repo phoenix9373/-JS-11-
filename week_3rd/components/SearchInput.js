@@ -1,7 +1,6 @@
 function SearchInput({ $app, debouncedGetSearchResult }) {
   this.$target = document.createElement('div')
   this.$target.className = 'search-input'
-
   $app.appendChild(this.$target)
 
   this.$target.addEventListener('keyup', (e) => {

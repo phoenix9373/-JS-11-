@@ -11,18 +11,12 @@ const HTTP_STATUS_CODE = {
   SERVER_ERROR: 500,
 }
 
-function App({ $app, initialState = [] }) {
-  this.$app = $app
-  this.state = {
-    data: initialState,
-    keyword: '',
-    history: [],
-  }
-
+function App($app) {
   const getSearchResult = async (keyword) => {
     try {
       const data = await getFetchImage(keyword)
-      this.setState({ ...this.state, data, keyword })
+      searchResult.setState({ data, keyword }) // tip: 아래에 선언한 객체를 사용하지만, 실행 시에는 이미 선언된 후이기 때문에 정상 작동함.
+      searchHistory.setState(keyword)
     } catch (e) {
       switch (e.status) {
         case HTTP_STATUS_CODE.BAD_REQUEST:
@@ -43,27 +37,20 @@ function App({ $app, initialState = [] }) {
   const debouncedGetSearchResult = debounce(getSearchResult, 300)
 
   const searchInput = new SearchInput({
-    $app: this.$app,
-    debouncedGetSearchResult: debouncedGetSearchResult,
+    $app,
+    debouncedGetSearchResult,
   })
 
   const searchHistory = new SearchHistory({
-    $app: this.$app,
-    initialState: this.state.history,
-    debouncedGetSearchResult: debouncedGetSearchResult,
+    $app,
+    initialState: [],
+    debouncedGetSearchResult,
   })
 
   const searchResult = new SearchResult({
-    $app: this.$app,
-    initialState: this.state,
+    $app,
+    initialState: { data: [], keyword: '' },
   })
-
-  this.setState = (nextState) => {
-    const { data, keyword } = nextState
-    searchResult.setState({ data, keyword })
-    const nextHistory = searchHistory.setState(keyword)
-    this.state = { ...nextState, history: nextHistory }
-  }
 
   this.render = () => {
     searchInput.render()

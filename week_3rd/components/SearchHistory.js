@@ -13,14 +13,13 @@ function SearchHistory({ $app, initialState, debouncedGetSearchResult }) {
 
   const hasKeyword = (newKeyword, history) => history.some((keyword) => keyword === newKeyword)
 
-  this.setState = (nextState) => {
-    if (hasKeyword(nextState, this.state)) {
-      return this.state
+  this.setState = (nextKeyword) => {
+    if (hasKeyword(nextKeyword, this.state)) {
+      return
     }
 
-    this.state = [...this.state, nextState]
+    this.state = [...this.state, nextKeyword]
     this.render()
-    return this.state
   }
 
   this.render = () => {
