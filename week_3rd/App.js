@@ -10,12 +10,19 @@ function App($app) {
     keyword: '',
   }
 
+  const createNextHistories = (keyword) => {
+    if (this.state.history.includes(keyword)) {
+      return this.state.history
+    }
+    return [...this.state.history, keyword]
+  }
+
   const searchInput = new SearchInput({
     $app,
     onSearch: async (keyword) => {
       const data = await getFetchImage(keyword)
       this.setState({
-        history: [...this.state.history, keyword],
+        history: createNextHistories(keyword),
         data: data,
         keyword,
       })
@@ -28,7 +35,7 @@ function App($app) {
     onClick: async (keyword) => {
       const data = await getFetchImage(keyword)
       this.setState({
-        history: [...this.state.history, keyword],
+        history: createNextHistories(keyword),
         data: data,
         keyword,
       })

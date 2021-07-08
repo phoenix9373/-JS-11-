@@ -17,13 +17,7 @@ function SearchHistory({ $app, initialState, onClick }) {
     })
   )
 
-  const hasKeyword = (newKeyword, history) => history.some((keyword) => keyword === newKeyword)
-
   this.setState = (nextState) => {
-    if (hasKeyword(nextState[nextState.length - 1], this.state)) {
-      return
-    }
-
     this.state = nextState
     this.render()
   }
