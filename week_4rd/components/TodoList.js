@@ -1,10 +1,30 @@
-export default function TodoList({ $app, initialState }) {
+export default function TodoList({ $app, initialState, onDelete, onToggle }) {
   const $target = document.createElement('ul')
   this.$target = $target
   this.$target.id = 'todo-list'
   this.state = initialState
 
+  this.onDelete = onDelete
+  this.onToggle = onToggle
+
   $app.appendChild(this.$target)
+
+  this.$target.addEventListener('click', (e) => {
+    if (e.target === this.$target) {
+      return
+    }
+
+    const $li = e.target.closest('li')
+    const id = $li.dataset.id
+
+    if (e.target.classList.contains('todo-toggle') || e.target.tagName === 'S') {
+      onToggle(id)
+    }
+
+    if (e.target.classList.contains('todo-delete')) {
+      onDelete(id)
+    }
+  })
 
   this.setState = (nextState) => {
     this.state = nextState
@@ -15,7 +35,14 @@ export default function TodoList({ $app, initialState }) {
     if (this.state.length > 0) {
       const htmlString = this.state
         .map((data) => {
-          return `<li>${data.text}</li>`
+          const toggleTemplate = data.isCompleted ? `<s>${data.text}</s>` : `${data.text}`
+          const htmlTemplate = `
+            <li data-id="${data.id}">
+              <span class="todo-toggle">${toggleTemplate}</span>
+              <button class="todo-delete">Del</button>
+            </li>
+          `
+          return htmlTemplate
         })
         .join('')
 
