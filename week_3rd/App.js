@@ -5,16 +5,16 @@ import { getFetchImage } from './api.js'
 
 function App($app) {
   this.state = {
-    history: [],
+    histories: [],
     data: [],
     keyword: '',
   }
 
   const createNextHistories = (keyword) => {
-    if (this.state.history.includes(keyword)) {
-      return this.state.history
+    if (this.state.histories.includes(keyword)) {
+      return this.state.histories
     }
-    return [...this.state.history, keyword]
+    return [...this.state.histories, keyword]
   }
 
   const searchInput = new SearchInput({
@@ -22,7 +22,7 @@ function App($app) {
     onSearch: async (keyword) => {
       const data = await getFetchImage(keyword)
       this.setState({
-        history: createNextHistories(keyword),
+        histories: createNextHistories(keyword),
         data: data,
         keyword,
       })
@@ -31,13 +31,12 @@ function App($app) {
 
   const searchHistory = new SearchHistory({
     $app,
-    initialState: this.state.history,
+    initialState: this.state.histories,
     onClick: async (keyword) => {
       const data = await getFetchImage(keyword)
       this.setState({
-        history: createNextHistories(keyword),
+        ...this.state,
         data: data,
-        keyword,
       })
     },
   })
@@ -48,10 +47,10 @@ function App($app) {
   })
 
   this.setState = (nextState) => {
-    const { data, history, keyword } = nextState
+    const { data, histories, keyword } = nextState
     this.state = nextState
     searchResult.setState({ data, keyword })
-    searchHistory.setState(history)
+    searchHistory.setState(histories)
   }
 
   this.render = () => {
