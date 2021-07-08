@@ -1,9 +1,15 @@
 import TodoList from './components/TodoList.js'
 import TodoInput from './components/TodoInput.js'
 import TodoCount from './components/TodoCount.js'
+import { getItemFromLocalStorage, setItemFromLocalStorage } from './utils/localStorage.js'
 
 export default function App({ $app, initialState }) {
-  this.state = initialState
+  const savedData = getItemFromLocalStorage('data')
+  this.state = savedData ? savedData : initialState
+
+  $app.addEventListener('remove', () => {
+    this.setState([])
+  })
 
   const todoInput = new TodoInput({
     $app,
@@ -33,9 +39,13 @@ export default function App({ $app, initialState }) {
       })
       this.setState(nextState)
     },
+    onRemoveAll: () => {
+      this.setState([])
+    },
   })
 
   this.setState = (nextState) => {
+    setItemFromLocalStorage('data', nextState)
     this.state = nextState
     todoList.setState(nextState)
     todoCount.setState(nextState)
@@ -43,6 +53,7 @@ export default function App({ $app, initialState }) {
   }
 
   this.render = () => {
+    todoInput.render()
     todoList.render()
     todoCount.render()
   }

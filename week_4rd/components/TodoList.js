@@ -1,9 +1,9 @@
 export default function TodoList({ $app, initialState, onDelete, onToggle }) {
   const $target = document.createElement('ul')
+
   this.$target = $target
   this.$target.id = 'todo-list'
   this.state = initialState
-
   this.onDelete = onDelete
   this.onToggle = onToggle
 
@@ -47,6 +47,8 @@ export default function TodoList({ $app, initialState, onDelete, onToggle }) {
         .join('')
 
       this.$target.innerHTML = htmlString
+    } else {
+      this.$target.innerHTML = ''
     }
   }
 }

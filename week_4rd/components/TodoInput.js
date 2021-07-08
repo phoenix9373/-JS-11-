@@ -1,32 +1,40 @@
 export default function TodoInput({ $app, onAdd }) {
   const $target = document.createElement('div')
-  const $input = document.createElement('input')
-  const $button = document.createElement('button')
 
   this.$target = $target
-  this.$input = $input
-  this.$button = $button
-  this.$button.innerText = '추가'
 
-  this.$target.appendChild(this.$input)
-  this.$target.appendChild(this.$button)
   $app.appendChild(this.$target)
 
-  $input.addEventListener('keyup', (e) => {
-    const text = e.target.value
-    if (e.key === 'Enter' && text.length > 0) {
-      onAdd(text)
-      this.$input.value = ''
-      this.$input.focus()
-    }
-  })
+  this.render = () => {
+    const htmlString = `
+      <form class="todo-form">
+        <label for="todo-input">Todo 추가: </label>
+        <input type="text" class="todo-input" id="todo-input" />
+        <button type="submit" class="todo-add">Add</button>
+      </form>
+      <button class="todo-remove-all">Remove All</button>
+    `
 
-  $button.addEventListener('click', () => {
-    const text = this.$input.value.trim()
-    if (text.length > 0) {
-      onAdd(text)
-      this.$input.value = ''
-      this.$input.focus()
-    }
-  })
+    this.$target.innerHTML = htmlString
+
+    this.$form = document.querySelector('.todo-form')
+    this.$input = document.querySelector('.todo-input')
+    this.$addBtn = document.querySelector('.todo-add')
+    this.$removeAllBtn = document.querySelector('.todo-remove-all')
+
+    this.$form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const text = this.$input.value.trim()
+      if (text.length > 0) {
+        onAdd(text)
+        this.$input.value = ''
+        this.$input.focus()
+      }
+    })
+
+    this.$removeAllBtn.addEventListener('click', () => {
+      const removeAll = new Event('remove')
+      $app.dispatchEvent(removeAll)
+    })
+  }
 }
