@@ -21,7 +21,9 @@ function SearchResult({ $app, initialState }) {
 
       this.$target.innerHTML = this.state.keyword ? `${infoString}${htmlString}` : htmlString
     } else {
-      this.$target.innerHTML = `'${this.state.keyword}' 에 대한 검색 결과가 없습니다.`
+      if (this.state.keyword) {
+        this.$target.innerHTML = `'${this.state.keyword}' 에 대한 검색 결과가 없습니다.`
+      }
     }
   }
 }

@@ -96,3 +96,62 @@
 2. `TodoList` 컴포넌트 관련
   - 현재는 `TodoList`를 생성자 함수로 호출할 때, 하나의 객체를 넘겨주는데 여기에 `$app`, `initialState`, `deleteTodo`, `toggleTodo` 등이 포함됩니다. 
   - **"처음에는 `deleteTodo`와 같이 todo에 영향을 주는 함수들을 `TodoLIst` 컴포넌트 내부에 메서드로 정의했었는데, 현재와 같이 생성과 동시에 익명함수를 넘겨주는 것이 더 낫다고 생각해서 바꿨습니다. 이에 대한 멘토분들이나 다른 기수분들의 의견이 궁금합니다."**
+
+
+
+## 3주차
+
+### 체크리스트
+
+- [x] #92 움짤 검색기 만들기 - 컴포넌트 분리, 각종 기능 분리
+- [x] #93 보너스 구현사항 - Promise 활용을 async ~ await으로 변경
+- [x] #94 보너스 구현 사항 - input tag의 keyup 이벤트에 debounce 기능 추가
+- [x] #102 보너스 구현사항 - SearchHistory 컴포넌트(검색 히스토리) 구현
+
+### 파일구조
+
+### 
+
+```
+├─ components/
+│    └─ SearchInput.js
+│    └─ SearchHistory.js
+│    └─ SearchResult.js
+├─ utils/
+│    └─ debounce.js
+├─ App.js
+├─ index.html
+├─ main.js
+├─ api.js
+```
+
+### 구현방법(라이브 코딩)
+
+- 하나의 기능에 대해 모듈화를 하거나 UI를 그려야하는 경우, 컴포넌트로 분리하여 로직을 구현.
+- API 요청의 경우, END_POINT가 같은 서버에 서로 다른 요청을 하는 경우가 많다. 따라서 `api.js`로 분리하여 하나의 모듈로 만들고, `url`을 인자로 받아 API 요청하는 함수 `request`를 만들어 재사용하는 방법으로 구현한다.
+- `App.js` 컴포넌트에서 데이터를 관리하고, 각 컴포넌트를 중앙 제어한다. 
+
+### 배운 점
+
+1. fetch API, Promise, body.json()
+   - 여기서 `body.json()`은 Promise 객체의 then() 메서드로 비동기 요청이 정상적으로 이행됐을 때, 요청을 통해 받는 body를 JSON 형태의 string으로 가진 resolve 함수를 반환하는 Promise 객체이다. (말이 좀 어렵다. 쉽게 말해서 Promise 객체가 잘 이행되면 resolve 함수를 호출하는데, `body.json()`이 JSON 형태의 text를 반환하는 resolve 함수를 실행하는 Promise 객체를 반환한다. -> 그 결과, 값을 data 형태로 출력해보면 이해가 된다.)
+
+2. debounce
+
+   - ```javascript
+     const debounce = (callback, waitTime) => {
+         let timer
+         
+         return (...args) => {
+             if (timer) {
+                 clearTimeout(timer)
+             }
+             
+             timer = setTimeout(callback(...args), waitTime)
+         }
+     }
+     ```
+
+   - `debounce` 함수는 인자를 전달받아 debounce 된 새로운 callback 함수를 반환한다.
+
+   - 여기서 새롭게 반환된 함수가 waitTime 안에 재호출됐을 때는 timer를 초기화하고, 다시 waitTime 후에 callback 함수를 실행한다.

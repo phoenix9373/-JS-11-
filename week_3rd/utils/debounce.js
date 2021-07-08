@@ -25,3 +25,14 @@ export const debounce = (targetFunction, debounceTime) => {
     timeoutId = setTimeout(functionToBeCalledLater, debounceTime)
   }
 }
+
+export const basicDebounce = (callback, time) => {
+  let timer
+
+  return (...rest) => {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => callback(...rest), time)
+  }
+}

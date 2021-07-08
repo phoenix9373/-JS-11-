@@ -1,26 +1,25 @@
-function SearchHistory({ $app, initialState, debouncedGetSearchResult }) {
+import { basicDebounce } from '../utils/debounce.js'
+
+function SearchHistory({ $app, initialState, onClick }) {
   this.state = initialState
   this.$target = document.createElement('ul')
   this.$target.className = 'search-history'
-
   $app.appendChild(this.$target)
 
-  this.$target.addEventListener('click', (e) => {
-    if (e.target.className === 'keyword') {
-      debouncedGetSearchResult(e.target.dataset.keyword)
-    }
-  })
+  this.onClick = onClick
 
-  const hasKeyword = (newKeyword, history) => history.some((keyword) => keyword === newKeyword)
+  this.$target.addEventListener(
+    'click',
+    basicDebounce((e) => {
+      if (e.target.className === 'keyword') {
+        this.onClick(e.target.dataset.keyword)
+      }
+    })
+  )
 
   this.setState = (nextState) => {
-    if (hasKeyword(nextState, this.state)) {
-      return this.state
-    }
-
-    this.state = [...this.state, nextState]
+    this.state = nextState
     this.render()
-    return this.state
   }
 
   this.render = () => {
