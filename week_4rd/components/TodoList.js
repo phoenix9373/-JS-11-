@@ -3,6 +3,7 @@ export default function TodoList({ $app, initialState, onDelete, onToggle }) {
 
   this.$target = $target
   this.$target.id = 'todo-list'
+
   this.state = initialState
   this.onDelete = onDelete
   this.onToggle = onToggle
@@ -35,9 +36,9 @@ export default function TodoList({ $app, initialState, onDelete, onToggle }) {
     if (this.state.length > 0) {
       const htmlString = this.state
         .map((data) => {
-          const toggleTemplate = data.isCompleted ? `<s>${data.text}</s>` : `${data.text}`
+          const toggleTemplate = data.isCompleted ? `<s>${data.content}</s>` : `${data.content}`
           const htmlTemplate = `
-            <li data-id="${data.id}">
+            <li data-id="${data._id}">
               <span class="todo-toggle">${toggleTemplate}</span>
               <button class="todo-delete">Del</button>
             </li>

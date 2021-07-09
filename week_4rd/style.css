@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  position: relative;
+}
+
+.todo-cancel {
+  text-decoration: line-through;
+}
+
+#loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+#loading .loading-box {
+  background-color: white;
+  border-radius: 20px;
+  width: 500px;
+  height: 400px;
+  min-width: 300px;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-content {
+  font-size: 2rem;
+  color: black;
+}
