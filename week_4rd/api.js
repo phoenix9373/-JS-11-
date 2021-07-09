@@ -1,5 +1,21 @@
 const END_POINT = 'https://todo-api.roto.codes'
 
+const options = {
+  post: (todoContent) => ({
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      content: todoContent,
+    }),
+  }),
+  delete: () => ({
+    method: 'DELETE',
+  }),
+  put: () => ({
+    method: 'PUT',
+  }),
+}
+
 export const request = async (url, options = {}) => {
   try {
     const res = await fetch(url, options)
@@ -9,46 +25,26 @@ export const request = async (url, options = {}) => {
       throw new Error(`${method} 요청 에러`)
     }
 
-    return res
+    return await res.json()
   } catch (e) {
     console.error(e.message)
   }
 }
 
-export const fetchTodoList = async (username) => {
-  const res = await request(`${END_POINT}/${username}`)
-  return await res.json()
-}
-
-export const fetchAddTodo = async (username, todoContent) => {
-  const options = {
-    method: 'POST', // 멱등성이 없음 -> 여러 번 요청한 것에 대한 응답이 다를 수 있음.
-    headers: {
-      'Content-Type': 'application/json', // body의 유형을 나타냄.
-    },
-    body: JSON.stringify({
-      content: todoContent,
-    }),
-  }
-  const res = await request(`${END_POINT}/${username}`, options)
-  console.log(res)
-  return res
-}
-
-export const fetchDeleteTodo = async (username, todoId) => {
-  const options = {
-    method: 'DELETE',
-  }
-  const res = await request(`${END_POINT}/${username}/${todoId}`, options)
-  console.log(res)
-  return res
-}
-
-export const fetchToggleTodo = async (username, todoId) => {
-  const options = {
-    method: 'PUT',
-  }
-  const res = await request(`${END_POINT}/${username}/${todoId}/toggle`, options)
-  console.log(res)
-  return res
+export const api = {
+  getTodoList: (userName) => {
+    return request(`${END_POINT}/${userName}`)
+  },
+  getUserList: () => {
+    return request(`${END_POINT}/users`)
+  },
+  addTodo: (userName, todoContent) => {
+    return request(`${END_POINT}/${userName}`, options.post(todoContent))
+  },
+  deleteTodo: (userName, todoId) => {
+    return request(`${END_POINT}/${userName}/${todoId}`, options.delete())
+  },
+  toggleTodo: (userName, todoId) => {
+    return request(`${END_POINT}/${userName}/${todoId}/toggle`, options.put())
+  },
 }

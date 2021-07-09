@@ -45,8 +45,8 @@ export default function App({ $app, initialState }) {
   })
 
   this.setState = (nextState) => {
-    setItemFromLocalStorage('data', nextState)
     this.state = nextState
+    setItemFromLocalStorage('data', nextState)
     todoList.setState(nextState)
     todoCount.setState(nextState)
     this.render()
