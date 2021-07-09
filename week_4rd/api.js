@@ -1,5 +1,5 @@
 const END_POINT = 'https://todo-api.roto.codes'
-const DELAY_TIME = 2000
+const DELAY_TIME = 500
 
 const options = {
   post: (todoContent) => ({

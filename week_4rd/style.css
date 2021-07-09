@@ -4,6 +4,10 @@
   margin: 0;
 }
 
+li {
+  list-style: none;
+}
+
 body {
   position: relative;
 }
@@ -39,4 +43,22 @@ body {
 .loading-content {
   font-size: 2rem;
   color: black;
+}
+
+.user-list {
+  background: lightblue;
+}
+
+.user {
+  cursor: pointer;
+}
+
+.user.active {
+  background: lightcoral;
+  color: white;
+}
+
+.user:hover {
+  color: white;
+  background: lightcoral;
 }
