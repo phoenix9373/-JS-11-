@@ -1,4 +1,5 @@
 const END_POINT = 'https://todo-api.roto.codes'
+const DELAY_TIME = 2000
 
 const options = {
   post: (todoContent) => ({
@@ -32,19 +33,19 @@ export const request = async (url, options = {}) => {
 }
 
 export const api = {
-  getTodoList: (userName) => {
-    return request(`${END_POINT}/${userName}`)
+  getTodoList: async (userName) => {
+    return await request(`${END_POINT}/${userName}?delay=${DELAY_TIME}`)
   },
-  getUserList: () => {
-    return request(`${END_POINT}/users`)
+  getUserList: async () => {
+    return await request(`${END_POINT}/users`)
   },
-  addTodo: (userName, todoContent) => {
-    return request(`${END_POINT}/${userName}`, options.post(todoContent))
+  addTodo: async (userName, todoContent) => {
+    return await request(`${END_POINT}/${userName}`, options.post(todoContent))
   },
-  deleteTodo: (userName, todoId) => {
-    return request(`${END_POINT}/${userName}/${todoId}`, options.delete())
+  deleteTodo: async (userName, todoId) => {
+    return await request(`${END_POINT}/${userName}/${todoId}`, options.delete())
   },
-  toggleTodo: (userName, todoId) => {
-    return request(`${END_POINT}/${userName}/${todoId}/toggle`, options.put())
+  toggleTodo: async (userName, todoId) => {
+    return await request(`${END_POINT}/${userName}/${todoId}/toggle`, options.put())
   },
 }
